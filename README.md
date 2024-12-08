@@ -137,7 +137,7 @@ bash run.sh --config=genie_redux_guided.yaml --num_processes=7 --train.batch_siz
 
 To get quantitative evaluation (ΔPSNR, FID, PSNR, SSIM):
 ```bash
-bash run.sh --config=genie_redux_1.yaml --mode=eval --eval.action_to_take=-1 --eval.model_path=<path_to_model> --eval.inference_method=one_go
+bash run.sh --config=genie_redux_1.yaml --mode=eval --eval.action_to_take=-1 --eval.model_fpath=<path_to_model> --eval.inference_method=one_go
 ```
 
 ## Data Generation

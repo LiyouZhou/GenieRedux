@@ -19,5 +19,5 @@ tokenizer_fpath: ${config.train.save_root_dpath}/tokenizer/tokenizer/model-15000
 eval:
   dataset_root_dpath: ${config.train.dataset_root_dpath}
   dataset_name: ${config.train.dataset_name}
-  model_fpath: ${config.train.save_root_dpath}/${model}/${train.wandb_name}/model-150000.pt
+  model_fpath: ${config.train.save_root_dpath}/${config.model}/${config.train.wandb_name}/model-150000.pt
   eval_control: "yes"
