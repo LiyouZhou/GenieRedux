@@ -73,7 +73,7 @@ This will generate a dataset in `data_generation/datasets/coinrun_v2.0.0`.
 To generate a test dataset of 10k instances (episodes), with length at most 500 frames, and using a random agent, run:
 
 ```bash
-python generate.py --config_name configs/data_gen_test_set.json
+python generate.py --config configs/data_gen_test_set.json
 ```
 
 This will generate a dataset in `data_generation/datasets/coinrun_v2.0.0_test`.
