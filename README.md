@@ -19,6 +19,8 @@ Authors: [Naser Kazemi](https://naser-kazemi.github.io/)\*, [Nedko Savov](https:
 
 We train and evaluate the models on the CoinRun case study, as advised by the Genie paper. We provide an easy data generation utility and an efficient data handler for training. In addition, we provide evaluation scripts.
 
+<b>Expect the release of our weights in the next days.</b>
+
 ## Installation
 <b>Prerequisites:</b>
 - Ensure you have Conda installed on your system. You can download and install Conda from the [official website](https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html).
