@@ -7,7 +7,7 @@ This is the official repository of <b>"Learning Generative Interactive Environme
 [![Website](docs/badges/badge_project_page.svg)](https://nsavov.github.io/GenieRedux/) 
 [![Paper](docs/badges/badge_pdf.svg)](https://arxiv.org/pdf/2409.06445) 
 
-Authors: [Naser Kazemi](https://naser-kazemi.github.io/)*, [Nedko Savov](https://insait.ai/nedko-savov/)*, [Danda Pani Paudel](https://insait.ai/dr-danda-paudel/), [Luc Van Gool](https://insait.ai/prof-luc-van-gool/)
+Authors: [Naser Kazemi](https://naser-kazemi.github.io/)\*, [Nedko Savov](https://insait.ai/nedko-savov/)\*, [Danda Pani Paudel](https://insait.ai/dr-danda-paudel/), [Luc Van Gool](https://insait.ai/prof-luc-van-gool/)
 
 ![GenieRedux](docs/title.gif)
 
