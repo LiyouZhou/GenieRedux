@@ -662,7 +662,7 @@ class Trainer(nn.Module):
         # Save model checkpoint
         if self.is_main and not (step % self.save_model_every):
             save_path = Path(str(self.checkpoint_dpath))
-            save_path.parent.mkdir(parents=True, exist_ok=True)
+            save_path.mkdir(parents=True, exist_ok=True)
             self.save(self.step)
 
             self.print(f"{step}: saving model to {str(save_path)}")
