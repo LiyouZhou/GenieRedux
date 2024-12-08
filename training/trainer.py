@@ -216,7 +216,7 @@ class Trainer(nn.Module):
         self.model = model
         self.model.wandb_mode = wandb_mode
 
-        self.num_train_steps = num_train_steps + 1
+        self.num_train_steps = num_train_steps
         self.batch_size = batch_size
         self.grad_accum_every = grad_accum_every
 
@@ -677,7 +677,7 @@ class Trainer(nn.Module):
         with tqdm(
             initial=self.step, total=self.num_train_steps, disable=not self.is_main
         ) as pbar:
-            while self.step < self.num_train_steps:
+            while self.step <= self.num_train_steps:
                 # Perform a single training step
                 logs = self.train_step(*args, **kwargs)
 
