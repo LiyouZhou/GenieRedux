@@ -4,8 +4,9 @@
 
 This is the official repository of <b>"Learning Generative Interactive Environments by Trained Agent Exploration"</b>.
 
-[![Website](docs/badges/badge_project_page.svg)](https://nsavov.github.io/GenieRedux/) 
+[![Website](docs/badges/badge_project_page.svg)](https://nsavov.github.io/GenieRedux/)
 [![Paper](docs/badges/badge_pdf.svg)](https://arxiv.org/pdf/2409.06445) 
+[![Models](docs/badges/badge_models.svg)](https://huggingface.co/INSAIT-Institute/GenieRedux) 
 
 Authors: [Naser Kazemi](https://naser-kazemi.github.io/)\*, [Nedko Savov](https://insait.ai/nedko-savov/)\*, [Danda Pani Paudel](https://insait.ai/dr-danda-paudel/), [Luc Van Gool](https://insait.ai/prof-luc-van-gool/)
 
@@ -19,7 +20,7 @@ Authors: [Naser Kazemi](https://naser-kazemi.github.io/)\*, [Nedko Savov](https:
 
 We train and evaluate the models on the CoinRun case study, as advised by the Genie paper. We provide an easy data generation utility and an efficient data handler for training. In addition, we provide evaluation scripts.
 
-<b>Expect the release of our weights in the next days.</b>
+<b>Model weights are now available!</b>
 
 ## Installation
 <b>Prerequisites:</b>
@@ -50,9 +51,18 @@ conda activate coinrun
 
 Note: This implementation is tested on Linux-64 with Python 3.10 and Conda package manager.
 
+<b>Model Weights Download:</b>
+To download the Tokenizer, GeniRedux and GenieRedux-G weights, run:
+```bash
+python download_models.py
+```
+
+This will create a `checkpoints` directory and store the weights:
+- Tokenizer - `checkpoints/GenieRedux_Tokenizer_CoinRun_100mln_v1.0/model.pt`
+- GenieRedux - `checkpoints/GenieRedux_CoinRun_250mln_v1.0/model.pt`
+- GenieRedux-G - `checkpoints/GenieRedux_Guided_CoinRun_80mln_v1.0/model.pt`
+
 ## Quickstart
-
-
 
 ### Data Generation
 
@@ -78,33 +88,18 @@ python generate.py --config configs/data_gen_test_set.json
 
 This will generate a dataset in `data_generation/datasets/coinrun_v2.0.0_test`.
 
-<!-- 
-To train an agent, follow Coinrun's instructions
-To generate data with an agent change in `data_generation/configs/data_gen.json` set the following for `"connector_coinrun"` properties:
-```json
-"connector_coinrun":
-    {
-        "name": "coinrun",
-        "version": "0.0.0",
-        "agent_type": "ppo",
-        "is_high_res": false,
-        "is_high_difficulty": false,
-        "should_paint_velocity": true,
-        "image_size": [64,64],
-        "generator_config": {
-            "n_instances": 10000,
-            "n_sessions": 1,
-            "n_steps_max": 500,
-            "n_workers": 46
-        }
-    }
-}
+### Using The Provided Weights
+To run evaluation on the provided weights of `GenieRedux`:
+
 ```
-It is expected that you will have your pretrained model weights at `data_generation/external/coinrun/coinrun/saved_models/sav_myrun_0`
-Run generation with:
-```bash
-python generate.py
-``` -->
+bash run.sh --config=genie_redux.yaml --mode=eval --eval.action_to_take=-1 --eval.inference_method=one_go --eval.model_fpath=checkpoints/GenieRedux_CoinRun_250mln_v1.0/model.pt --tokenizer_fpath=checkpoints/GenieRedux_Tokenizer_CoinRun_100mln_v1.0/model.pt
+```
+
+For `GenieRedux-G`:
+
+```
+bash run.sh --config=genie_redux_guided.yaml --mode=eval --eval.action_to_take=-1 --eval.inference_method=one_go --eval.model_fpath=checkpoints/GenieRedux_Guided_CoinRun_80mln_v1.0/model.pt --tokenizer_fpath=checkpoints/GenieRedux_Tokenizer_CoinRun_100mln_v1.0/model.pt
+```
 
 ### Training GenieRedux
 
@@ -137,7 +132,7 @@ bash run.sh --config=genie_redux_guided.yaml --num_processes=7 --train.batch_siz
 
 To get quantitative evaluation (ΔPSNR, FID, PSNR, SSIM):
 ```bash
-bash run.sh --config=genie_redux_1.yaml --mode=eval --eval.action_to_take=-1 --eval.model_fpath=<path_to_model> --eval.inference_method=one_go
+bash run.sh --config=genie_redux.yaml --mode=eval --eval.action_to_take=-1 --eval.model_fpath=<path_to_model> --eval.inference_method=one_go
 ```
 
 ## Data Generation
@@ -233,7 +228,7 @@ Another example, where we train on 2 GPUs with batch size 2, using a specified t
 
 ```bash
 
-./run --num_processes=2 --config=genie_redux_1.yaml --tokenizer_fpath=<path_to_tokenizer> --train.dataset_root_dpath=<path_to_dataset_root_directory> --train.dataset_name=<dataset_name> --train.batch_size=2
+./run --num_processes=2 --config=genie_redux.yaml --tokenizer_fpath=<path_to_tokenizer> --train.dataset_root_dpath=<path_to_dataset_root_directory> --train.dataset_name=<dataset_name> --train.batch_size=2
 ```
 
 We note two important parameters:
@@ -278,7 +273,7 @@ There are two evaluation modes:
 ### Example
 
 ```bash
-./run.sh --config=genie_redux_1.yaml --mode=eval --eval.action_to_take=1 --eval.model_path=<path_to_model> --eval.inference_method=one_go
+./run.sh --config=genie_redux.yaml --mode=eval --eval.action_to_take=1 --eval.model_path=<path_to_model> --eval.inference_method=one_go
 ```
 
 The above command will evaluate the model at the specified path using the action at index `1`, which corresponds to the `RIGHT` action in the `CoinRun` dataset. You can see the visualizations of the model's predictions in the `./outputs/evaluation/<model-name>/<dataset>/`, dirctory, which is default path for the evaluation results.
