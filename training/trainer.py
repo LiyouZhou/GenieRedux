@@ -107,7 +107,7 @@ class Trainer(nn.Module):
         self,
         model: Tokenizer | LatentActionModel | GenieRedux | GenieReduxGuided,
         batch_size,
-        dataset: tuple[Dataset, Dataset] | Dataset,
+        dataset,
         num_train_steps=100000,
         accelerator: Accelerator | None = None,
         num_frames=16,
@@ -203,7 +203,7 @@ class Trainer(nn.Module):
                 cpu=False,
                 log_with="wandb",
                 kwargs_handlers=[kwargs],
-                mixed_precision="bf16",
+                mixed_precision="fp16",
             )
 
         self.evaluator = Evaluator(device=self.accelerator.device)

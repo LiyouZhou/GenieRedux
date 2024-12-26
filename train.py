@@ -1,5 +1,7 @@
 import os
 
+from data.push_t_wrapper import PushTDataset
+
 # set the current working directory as the project root directory
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
@@ -40,38 +42,55 @@ def count_parameters(model):
 
 def run(args):
 
-    dataset_folder = (
-        f"{args.train.dataset_root_dpath}/{args.train.dataset_name}/{args.train.dataset_name}"
+    dataset_folder = f"{args.train.dataset_root_dpath}/{args.train.dataset_name}/{args.train.dataset_name}"
+    cache_dpath = (
+        args.train.wandb_dpath if args.train.wandb_dpath != "./wandb" else "./cache"
     )
-    cache_dpath = args.train.wandb_dpath if args.train.wandb_dpath != "./wandb" else "./cache"
 
     model = construct_model(args)
 
+    print("model.image_size", model.image_size)
+
     transforms = TransformsGenerator.get_final_transforms(model.image_size, None)
-    train_ds = EnvironmentDataset(
-        dataset_folder,
-        seq_length_input=args.train.num_frames - 1,
-        seq_step=1,
-        split_type="instance",
-        split="train",
-        transform=transforms["train"],
-        format=DatasetOutputFormat.IVG,
-        enable_cache=True,
-        cache_dpath=f"{cache_dpath}/cache/{args.train.dataset_name}",
+    # train_ds = EnvironmentDataset(
+    #     dataset_folder,
+    #     seq_length_input=args.train.num_frames - 1,
+    #     seq_step=1,
+    #     split_type="instance",
+    #     split="train",
+    #     transform=transforms["train"],
+    #     format=DatasetOutputFormat.IVG,
+    #     enable_cache=True,
+    #     cache_dpath=f"{cache_dpath}/cache/{args.train.dataset_name}",
+    # )
+
+    # valid_ds = EnvironmentDataset(
+    #     dataset_folder,
+    #     seq_length_input=args.train.num_frames - 1,
+    #     seq_step=args.train.seq_step,
+    #     split_type="instance",
+    #     split="validation",
+    #     transform=transforms["train"],
+    #     format=DatasetOutputFormat.IVG,
+    #     enable_cache=True,
+    #     cache_dpath=f"{cache_dpath}/cache/{args.train.dataset_name}",
+    # )
+
+    pt_dataset_path = "datasets/pusht_real/real_pusht_20230105"
+    image_size = (64, 64)
+
+    pt_ds = PushTDataset(
+        dataset_path=pt_dataset_path,
+        image_size=image_size,
+        num_frames=args.train.num_frames,
+    )
+    rng = torch.Generator().manual_seed(42)
+    train_length = int(0.9 * len(pt_ds))
+    valid_length = len(pt_ds) - train_length
+    train_ds, valid_ds = torch.utils.data.random_split(
+        pt_ds, [train_length, valid_length], generator=rng
     )
 
-    valid_ds = EnvironmentDataset(
-        dataset_folder,
-        seq_length_input=args.train.num_frames - 1,
-        seq_step=args.train.seq_step,
-        split_type="instance",
-        split="validation",
-        transform=transforms["train"],
-        format=DatasetOutputFormat.IVG,
-        enable_cache=True,
-        cache_dpath=f"{cache_dpath}/cache/{args.train.dataset_name}",
-    )
-    
     save_dpath = f"{args.train.save_root_dpath}/{args.model}/{args.train.wandb_name}"
 
     trainer = Trainer(

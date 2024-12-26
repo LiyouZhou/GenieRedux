@@ -4,7 +4,7 @@ defaults:
 model: "dynamics"
 
 dim: 512
-action_dim: 7
+action_dim: 2
 image_size: 64
 patch_size: 4
 temporal_patch_size: 1
