@@ -1,3 +1,6 @@
+eval "$(conda shell.bash hook)"
+conda activate genie_redux
+
 # Initialize variables for named arguments
 num_processes=${num_processes:-1}
 config=${config:-"tokenizer.yaml"}
