@@ -204,6 +204,7 @@ class Trainer(nn.Module):
                 log_with="wandb",
                 kwargs_handlers=[kwargs],
                 mixed_precision="bf16",
+                gradient_accumulation_steps=grad_accum_every,
             )
 
         self.evaluator = Evaluator(device=self.accelerator.device)
@@ -448,7 +449,7 @@ class Trainer(nn.Module):
         total_loss = 0.0
 
         # Perform gradient accumulation
-        for i in range(self.grad_accum_every):
+        with self.accelerator.accumulate(self.model):
             # Get next batch of data
             videos = next(self.dl_iter)
             actions = videos["actions"]
@@ -463,37 +464,36 @@ class Trainer(nn.Module):
                 }
 
             # Compute loss with automatic mixed precision
-            with conditional_with(
-                self.accelerator.no_sync(self.model), self.grad_accum_every != i - 1
-            ):
-                with self.accelerator.autocast():
-                    loss = self.model(
-                        videos=videos,
-                        actions=actions,
-                        apply_grad_penalty=apply_grad_penalty,
-                        accelerator_tracker_dict=accelerator_tracker_dict,
-                    )
+            with self.accelerator.autocast():
+                # Clear gradients
+                self.optim.zero_grad()
 
-                # Backward pass
-                self.accelerator.backward(loss / self.grad_accum_every)
-
-            # Clip gradients if specified
-            if exists(self.max_grad_norm) and self.accelerator.sync_gradients:
-                self.accelerator.clip_grad_norm_(
-                    self.model.parameters(), self.max_grad_norm
+                # calculate loss on the batch
+                loss = self.model(
+                    videos=videos,
+                    actions=actions,
+                    apply_grad_penalty=apply_grad_penalty,
+                    accelerator_tracker_dict=accelerator_tracker_dict,
                 )
 
-            total_loss += loss.item() / self.grad_accum_every
+                # Backward pass
+                self.accelerator.backward(loss)
+
+                # Optimizer step
+                self.optim.step()
+
+                # Learning rate scheduler step
+                self.scheduler_optim.step()
+
+                # Clip gradients if specified
+                if exists(self.max_grad_norm) and self.accelerator.sync_gradients:
+                    self.accelerator.clip_grad_norm_(
+                        self.model.parameters(), self.max_grad_norm
+                    )
 
             # Log training loss
+            total_loss += loss.item() / self.grad_accum_every
             accum_log(logs, {"train_loss": loss.item() / self.grad_accum_every})
-
-        # Optimizer step
-        self.optim.step()
-        self.optim.zero_grad()
-
-        # Learning rate scheduler step
-        self.scheduler_optim.step(self.step)
 
         # Log learning rate and Loss
         if step % self.wandb_log_every == 0:
