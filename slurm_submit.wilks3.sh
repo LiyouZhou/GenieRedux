@@ -54,7 +54,7 @@ module load rhel8/default-amp              # REQUIRED - loads the basic environm
 #! Insert additional module load commands after this line if needed:
 
 #! Full path to application executable: 
-application="/home/lz307/rds/hpc-work/GenieRedux/slurm_run.sh"
+application="/home/lz307/rds/hpc-work/GenieRedux/slurm_train_dynamics.sh"
 
 #! Run options for the application:
 options=""
