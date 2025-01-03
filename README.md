@@ -14,7 +14,7 @@ Authors: [Naser Kazemi](https://naser-kazemi.github.io/)\*, [Nedko Savov](https:
 
 ![GenieRedux](docs/models.png)
 </div>
-<b>GenieRedux</b> is a complete open-source Pytorch implementation of the <b>Genie</b> world model introduced by Google Research. Given a sequence of frames and actions from an environment, the model predicts the visual outcome of executing the actions, thus serving as environment simulators. The model has a Latent Action Model that predicts the actions in a self-supervised manner.
+<b>GenieRedux</b> is a complete open-source Pytorch implementation of the <b>Genie</b> world model introduced by Google DeepMind. Given a sequence of frames and actions from an environment, the model predicts the visual outcome of executing the actions, thus serving as environment simulators. The model has a Latent Action Model that predicts the actions in a self-supervised manner.
 
 <b>GenieRedux-G</b> (Guided) is a version of GenieRedux, adapted for use with virtual environments and agents. In contrast to GenieRedux, this guided version takes its actions from an agent rather than predicting them from unnanotated data of human demonstrations (datasets which are costly to obtain and curate).
 
@@ -312,13 +312,26 @@ The above command will evaluate the model at the specified path using the action
     - Visualizing the model's predictions with ground truth or custom input actions.
 - **`optimizer.py`**: Custom optimization routines.
 
+## Citations
 
-## Citation
+We thank the authors of the [Phenaki CViViT implementation](https://github.com/obvious-research/phenaki-cvivit), which served as great initial reference point for our project.
+
+If you find our work useful, please cite our paper, as well as the original Genie world model (Bruce et. al. 2024).
 
 ```bibtex
 @inproceedings{kazemi2024learning,
   title={Learning Generative Interactive Environments By Trained Agent Exploration},
   author={Kazemi, Naser and Savov, Nedko and Paudel, Danda Pani and Van Gool, Luc},
   booktitle={NeurIPS 2024 Workshop on Data-driven and Differentiable Simulations, Surrogates, and Solvers}
+}
+```
+
+```bibtex
+@inproceedings{bruce2024genie,
+    title={Genie: Generative Interactive Environments},
+    author={Jake Bruce and Michael D Dennis and Ashley Edwards and Jack Parker-Holder and Yuge Shi and Edward Hughes and Matthew Lai and Aditi Mavalankar and Richie Steigerwald and Chris Apps and Yusuf Aytar and Sarah Maria Elisabeth Bechtle and Feryal Behbahani and Stephanie C.Y. Chan and Nicolas Heess and Lucy Gonzalez and Simon Osindero and Sherjil Ozair and Scott Reed and Jingwei Zhang and Konrad Zolna and Jeff Clune and Nando de Freitas and Satinder Singh and Tim Rockt{\"a}schel},
+    booktitle={Forty-first International Conference on Machine Learning},
+    year={2024},
+    url={https://openreview.net/forum?id=bJbSbJskOS}
 }
 ```
