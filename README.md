@@ -10,6 +10,11 @@ This is the official repository of <b>"Learning Generative Interactive Environme
 
 Authors: [Naser Kazemi](https://naser-kazemi.github.io/)\*, [Nedko Savov](https://insait.ai/nedko-savov/)\*, [Danda Pani Paudel](https://insait.ai/dr-danda-paudel/), [Luc Van Gool](https://insait.ai/prof-luc-van-gool/)
 
+<!-- 
+Keywords: Genie, Genie world model, Generative Interactive Environments, Genie Implementation, Open Source, RL exploration, world models.
+This is a Pytorch open-source implementation of the Genie world model (Bruce et. al.) by Google DeepMind. 
+-->
+
 ![GenieRedux](docs/title.gif)
 
 ![GenieRedux](docs/models.png)
