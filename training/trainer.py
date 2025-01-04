@@ -203,7 +203,6 @@ class Trainer(nn.Module):
                 cpu=False,
                 log_with="wandb",
                 kwargs_handlers=[kwargs],
-                mixed_precision="fp16",
                 gradient_accumulation_steps=grad_accum_every,
             )
 
