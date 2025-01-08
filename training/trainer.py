@@ -483,7 +483,7 @@ class Trainer(nn.Module):
                 self.optim.step()
 
                 # Learning rate scheduler step
-                self.scheduler_optim.step()
+                self.scheduler_optim.step(step)
 
                 # Clip gradients if specified
                 if exists(self.max_grad_norm) and self.accelerator.sync_gradients:
