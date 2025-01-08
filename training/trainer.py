@@ -180,14 +180,14 @@ class Trainer(nn.Module):
         self.sample_num_frames = sample_num_frames
 
         # Create config dictionary for logging
-        config = {}
+        self.config = {}
         arguments = locals()
         for key in arguments.keys():
             if key not in ["self", "config", "__class__", "model"]:
                 config[key] = arguments[key]
 
         # Add the model config to the wandb config
-        config["model_config"] = model.config
+        self.config["model_config"] = model.config
 
         # Determine the type of model
         self.is_genie = isinstance(model, GenieRedux | GenieReduxGuided)
@@ -211,7 +211,7 @@ class Trainer(nn.Module):
         # Print config if main process
         if self.accelerator.is_main_process:
             print("config\n")
-            print(config)
+            print(self.config)
         self.wandb_mode = wandb_mode
         self.model = model
         self.model.wandb_mode = wandb_mode
@@ -312,16 +312,16 @@ class Trainer(nn.Module):
         self.print(f"Acctual batch size : {batch_size * grad_accum_every}")
         self.print(f"Number of train steps : {num_train_steps}")
 
-        config["train config"] = train_config
+        self.config["train config"] = train_config
 
         # Initialize wandb
         self.accelerator.init_trackers(
             project_name=wandb_project,
-            config=config,
+            config=self.config,
             init_kwargs={
                 "wandb": {
                     "mode": self.wandb_mode,
-                    "config": config,
+                    "config": self.config,
                     "name": wandb_name,
                     "dir": wandb_dpath,
                 }
@@ -521,7 +521,10 @@ class Trainer(nn.Module):
                         accelerator_tracker_dict=accelerator_tracker_dict,
                     )
 
-                    if self.is_genie:
+                    if (
+                        self.is_genie
+                        and self.config["train config"].dataset.apply_argmax_to_actions
+                    ):
                         actions = actions.argmax(dim=-1)
 
                     # Generate reconstructions
@@ -598,7 +601,10 @@ class Trainer(nn.Module):
             actions = self.valid_data_to_log["actions"]
             first_frames = videos[:, :, :1]
 
-            if self.is_genie:
+            if (
+                self.is_genie
+                and self.config["train config"].dataset.apply_argmax_to_actions
+            ):
                 actions = actions.argmax(dim=-1)
 
             # Generate reconstructions

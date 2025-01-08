@@ -1,0 +1,4 @@
+dataset:
+  dataset_root_dpath: "data_generation/datasets"
+  dataset_name: "coinrun_v2.0.0"
+  apply_argmax_to_actions: true

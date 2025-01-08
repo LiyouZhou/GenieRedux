@@ -42,7 +42,7 @@ def count_parameters(model):
 
 def run(args):
 
-    dataset_folder = f"{args.train.dataset_root_dpath}/{args.train.dataset_name}/{args.train.dataset_name}"
+    dataset_folder = f"{args.dataset.dataset_root_dpath}/{args.dataset.dataset_name}/{args.train.dataset_name}"
     cache_dpath = (
         args.train.wandb_dpath if args.train.wandb_dpath != "./wandb" else "./cache"
     )

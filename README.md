@@ -187,7 +187,7 @@ Control is given over model and training parameters, as well as dataset paths.
 For example, dataset arguments are provided in the following format:
 
 ```yaml
-train:
+dataset:
   dataset_root_dpath: <path_to_dataset_root_directory>
   dataset_name: <dataset_name>
 ```
@@ -228,7 +228,7 @@ Another example, where we train on 2 GPUs with batch size 2, using a specified t
 
 ```bash
 
-./run --num_processes=2 --config=genie_redux.yaml --tokenizer_fpath=<path_to_tokenizer> --train.dataset_root_dpath=<path_to_dataset_root_directory> --train.dataset_name=<dataset_name> --train.batch_size=2
+./run --num_processes=2 --config=genie_redux.yaml --tokenizer_fpath=<path_to_tokenizer> --dataset.dataset_root_dpath=<path_to_dataset_root_directory> --dataset.dataset_name=<dataset_name> --train.batch_size=2
 ```
 
 We note two important parameters:

@@ -162,9 +162,6 @@ class GenieReduxGuided(nn.Module):
             num_frames + prime_num_frames, num_first_frames=prime_num_frames
         )
 
-        # derive the latent actions
-        actions = self.get_codes_from_indices(actions)
-
         output = self.dynamics.sample(
             prime_token_ids=prime_token_ids,
             actions=actions,
@@ -229,8 +226,6 @@ class GenieReduxGuided(nn.Module):
 
         # Extend actions to cover dream length
         actions = torch.cat([actions] + [actions[:, -1:]] * dream_length, dim=1)
-
-        actions = self.get_codes_from_indices(actions)
 
         initial_prime_num_frames = prime_frames.shape[2]
 

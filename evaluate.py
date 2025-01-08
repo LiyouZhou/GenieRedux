@@ -224,7 +224,7 @@ def evaluate(
 
 @torch.no_grad()
 def run(args):
-    dataset_folder = f"{args.eval.dataset_root_dpath}/{args.eval.dataset_name}/{args.eval.dataset_name}"
+    dataset_folder = f"{args.dataset.dataset_root_dpath}/{args.dataset.dataset_name}/{args.eval.dataset_name}"
 
     kwargs = DistributedDataParallelKwargs(find_unused_parameters=True)
     accelerator = Accelerator(kwargs_handlers=[kwargs])
