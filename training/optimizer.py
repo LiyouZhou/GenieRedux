@@ -66,12 +66,9 @@ class LinearWarmup_CosineAnnealing:
 
         self.switch = linear_warmup_total_iters
 
-        self.nb_steps = 0
+    def step(self, nb_steps):
 
-    def step(self):
-        self.nb_steps += 1
-
-        if self.nb_steps <= self.switch:
+        if nb_steps <= self.switch:
             self.scheduler_linear.step()
         else:
             self.scheduler_cosine.step()
