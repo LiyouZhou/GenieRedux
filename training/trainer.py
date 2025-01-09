@@ -184,7 +184,7 @@ class Trainer(nn.Module):
         arguments = locals()
         for key in arguments.keys():
             if key not in ["self", "config", "__class__", "model"]:
-                config[key] = arguments[key]
+                self.config[key] = arguments[key]
 
         # Add the model config to the wandb config
         self.config["model_config"] = model.config

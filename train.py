@@ -42,7 +42,7 @@ def count_parameters(model):
 
 def run(args):
 
-    dataset_folder = f"{args.dataset.dataset_root_dpath}/{args.dataset.dataset_name}/{args.train.dataset_name}"
+    dataset_folder = f"{args.dataset.dataset_root_dpath}/{args.dataset.dataset_name}/{args.dataset.dataset_name}"
     cache_dpath = (
         args.train.wandb_dpath if args.train.wandb_dpath != "./wandb" else "./cache"
     )
@@ -63,7 +63,7 @@ def run(args):
             transform=transforms["train"],
             format=DatasetOutputFormat.IVG,
             enable_cache=True,
-            cache_dpath=f"{cache_dpath}/cache/{args.train.dataset_name}",
+            cache_dpath=f"{cache_dpath}/cache/{args.dataset.dataset_name}",
         )
 
         valid_ds = EnvironmentDataset(
@@ -75,7 +75,7 @@ def run(args):
             transform=transforms["train"],
             format=DatasetOutputFormat.IVG,
             enable_cache=True,
-            cache_dpath=f"{cache_dpath}/cache/{args.train.dataset_name}",
+            cache_dpath=f"{cache_dpath}/cache/{args.dataset.dataset_name}",
         )
 
     else:
