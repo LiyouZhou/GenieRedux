@@ -8,6 +8,5 @@ model: tokenizer
 mode: train
 
 train:
-  wandb_name: "tokenizer"
   batch_size: 7
   grad_accum: 2

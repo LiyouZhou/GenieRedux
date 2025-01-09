@@ -114,6 +114,7 @@ def run(args):
         max_grad_norm=args.optimizer.max_grad_norm,  # gradient clipping
         save_dpath=save_dpath,
         save_model_every=args.train.save_model_every,
+        save_results_every=args.train.save_results_every,
         wandb_dpath=args.train.wandb_dpath,
         validate_every=args.train.validate_every,
         train_config=args,

@@ -9,7 +9,6 @@ model: genie_redux_guided
 mode: train
 
 train:
-  wandb_name: "genie_redux_guided"
   batch_size: 4
   grad_accum: 3
 

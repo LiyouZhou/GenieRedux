@@ -21,12 +21,13 @@ train:
   log_every: 50
   validate_every: 1000
   save_model_every: 1000
+  save_results_every: ${config.train.save_model_every}
   resume_ckpt: "no"
   save_root_dpath: "./checkpoints"
   wandb_dpath: "./logs/wandb"
   wandb_mode: "online"
   wandb_project: "GenieRedux"
-  wandb_name: "genie_redux"
+  wandb_name: "${config.model}_${now:%y%m%d%H%M%S}"
 
 eval:
   model_fpath: ???

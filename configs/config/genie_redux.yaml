@@ -10,7 +10,6 @@ model: genie_redux
 mode: train
 
 train:
-  wandb_name: "genie_redux"
   batch_size: 3
   grad_accum: 4
 
