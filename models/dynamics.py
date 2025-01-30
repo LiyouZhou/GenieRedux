@@ -473,6 +473,7 @@ class Dynamics(nn.Module):
         actions=None,
         num_tokens=None,
         patch_shape=None,
+        return_confidence=False,
         *args,
         **kwargs,
     ):
@@ -541,12 +542,15 @@ class Dynamics(nn.Module):
 
             video_token_ids = torch.where(mask, pred_video_ids, video_token_ids)
 
-            if not is_last_step:
+            if is_last_step:
                 scores = self.compute_confidence_scores(
                     pred_video_ids,
                     logits,
                     mask,
                 )[:, -num_tokens:]
+
+        if return_confidence:
+            return video_token_ids, scores
 
         return video_token_ids
 
