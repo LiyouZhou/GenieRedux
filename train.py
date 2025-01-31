@@ -1,4 +1,5 @@
 import os
+from omegaconf import OmegaConf
 
 from data.push_t_wrapper import PushTDataset
 
@@ -133,6 +134,10 @@ def run(args):
         trainer.load(args.train.resume_ckpt)
         print("Model loaded from file:", args.train.resume_ckpt)
         print("Starting training from step:", trainer.step)
+
+    # save the config along side the model
+    with open(trainer.get_checkpoint_dpath() / "config.yaml", "w") as f:
+        OmegaConf.save(args, f)
 
     model.train()
     trainer.train()

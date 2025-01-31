@@ -691,3 +691,6 @@ class Trainer(nn.Module):
                 pbar.update(1)
 
         self.print("training complete")
+
+    def get_checkpoint_dpath(self) -> Path:
+        return Path(self.checkpoint_dpath)
