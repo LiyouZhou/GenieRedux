@@ -258,12 +258,13 @@ class STViViT(nn.Module):
         )
 
         # Convert tokens to pixels
-        first_frame_token, rest_frames_tokens = tokens[:, :1], tokens[:, 1:]
+        # first_frame_token, rest_frames_tokens = tokens[:, :1], tokens[:, 1:]
 
-        first_frame = self.to_pixels_first_frame(first_frame_token)
-        rest_frames = self.to_pixels(rest_frames_tokens)
+        # first_frame = self.to_pixels_first_frame(first_frame_token)
+        # rest_frames = self.to_pixels(rest_frames_tokens)
 
-        recon_video = torch.cat((first_frame, rest_frames), dim=2)
+        # recon_video = torch.cat((first_frame, rest_frames), dim=2)
+        recon_video = self.to_pixels(tokens)
 
         return recon_video
 

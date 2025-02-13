@@ -311,14 +311,15 @@ class Tokenizer(STViViT):
         ), f"number of frames ({f}) minus one ({f - 1}) must be divisible by temporal patch size ({self.temporal_patch_size})"
 
         # Split video into first frame and rest frames
-        first_frame, rest_frames = videos[:, :, :1], videos[:, :, 1:]
+        # first_frame, rest_frames = videos[:, :, :1], videos[:, :, 1:]
 
         # Embed patches
-        first_frame_tokens = self.to_patch_emb_first_frame(first_frame)
-        rest_frames_tokens = self.to_patch_emb(rest_frames)
+        # first_frame_tokens = self.to_patch_emb_first_frame(first_frame)
+        # rest_frames_tokens = self.to_patch_emb(rest_frames)
 
         # Concatenate tokens
-        tokens = torch.cat((first_frame_tokens, rest_frames_tokens), dim=1)
+        # tokens = torch.cat((first_frame_tokens, rest_frames_tokens), dim=1)
+        tokens = self.to_patch_emb(videos)
 
         shape = tokens.shape
         *_, h, w, _ = shape
